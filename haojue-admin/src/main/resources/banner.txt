@@ -1,0 +1,2 @@
+Application Version: ${haojue.version}
+Spring Boot Version: ${spring-boot.version}

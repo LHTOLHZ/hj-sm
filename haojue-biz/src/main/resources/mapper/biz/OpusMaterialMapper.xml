@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.haojue.biz.mapper.OpusMaterialMapper">
+    <delete id="deleteOpusMaterial">
+        delete from hj_material where opus_code=#{opusCode}
+    </delete>
+
+    <insert id="saveOpusMaterial" parameterType="com.haojue.common.entity.OpusMaterialEntity">
+        insert into hj_material(url,type,opus_code)
+        values(#{url},#{type},#{opusCode});
+    </insert>
+
+    <select id="getOpusCode" resultType="com.haojue.common.entity.OpusMaterialEntity">
+         select url,type from hj_material where opus_code = #{opusCode}
+    </select>
+
+</mapper>
