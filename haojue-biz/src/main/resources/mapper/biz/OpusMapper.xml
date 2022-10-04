@@ -80,6 +80,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="browseNum != null">browse_num,</if>
             <if test="createBy != null and createBy != ''">create_by,</if>
             <if test="cover != null and cover != ''">cover,</if>
+
             create_time
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -101,6 +102,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="browseNum != null">#{browseNum},</if>
             <if test="createBy != null and createBy != ''">#{createBy},</if>
             <if test="cover != null and cover != ''">#{cover},</if>
+
             sysdate()
          </trim>
     </insert>
@@ -145,16 +147,4 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <update id="passExamine">
        update hj_opus set state=4 where id=#{id}
     </update>
-
-
-
-
-
-
-
-
-
-
-
-
 </mapper>

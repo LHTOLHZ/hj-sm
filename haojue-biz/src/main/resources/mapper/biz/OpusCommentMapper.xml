@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.haojue.biz.mapper.OpusCommentMapper">
+    <sql id="baseSql">
+        t
+        .
+        id
+        ,t.opus_code as opusCode,t.user_name as userName,t.user_email as userEmail,t.create_date as createDate,
+        t.ip,t.view,t.remark,t.comment_code as commentCode
+    </sql>
+
+    <select id="getPageList" resultType="com.haojue.biz.domain.OpusCommentVO">
+        select h.id,h.code,t.userName,t.remark,t.ip,t.view,t.commentCode from hj_opus  h
+        left join
+        (select user_name as userName,opus_code,remark,ip,view,comment_code as commentCode from hj_opus_comment where id in(
+        select max(id) from hj_opus_comment)) t
+        on h.code = t.opus_code
+        <where>
+            <if test="opusComment.keyword != null and opusComment.keyword != ''">
+                and (h.keyword like concat('%',#{opusComment.keyword},'%')
+                or h.name like concat('%',#{opusComment.keyword},'%')
+                )
+            </if>
+            <if test="opusComment.userName != null and opusComment.userName ">
+                and t.user_name like concat('%',#{opusComment.userName},'%')
+            </if>
+            <if test="createBy != null and createBy != ''">
+                and h.create_by = #{createBy}
+            </if>
+        </where>
+    </select>
+
+    <update id="updateViewState">
+        update hj_opus_comment
+        set view = #{view}
+        where id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        delete
+        from hj_opus_comment
+        where id = #{id}
+    </delete>
+
+    <select id="getCommentDetailPage" resultType="com.haojue.biz.domain.OpusCommentVO">
+        select
+        <include refid="baseSql"/>,s.nick_name as nickName,s.avatar as userUrl
+        from hj_opus_comment t inner join
+        hj_opus h
+        on h.code = t.opus_code
+        left join sys_user s
+        on s.user_name = t.user_name
+        where h.id = #{opusId}
+        order by t.create_date desc
+    </select>
+
+
+</mapper>

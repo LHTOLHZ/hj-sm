@@ -64,6 +64,8 @@ public class Opus extends BaseEntity
      */
     private String cover;
 
+    private String ip;
+
 
     /** 浏览数 */
     private Integer browseNum;
