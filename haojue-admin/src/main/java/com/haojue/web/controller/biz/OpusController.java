@@ -9,7 +9,6 @@ import com.haojue.biz.service.OpusCommentService;
 import com.haojue.common.annotation.Log;
 import com.haojue.common.core.controller.BaseController;
 import com.haojue.common.core.domain.AjaxResult;
-import com.haojue.common.core.domain.entity.SysUser;
 import com.haojue.common.core.domain.model.LoginUser;
 import com.haojue.common.core.page.TableDataInfo;
 import com.haojue.common.enums.BusinessType;
@@ -17,8 +16,8 @@ import com.haojue.common.utils.DateUtils;
 import com.haojue.common.utils.StringUtils;
 import com.haojue.common.utils.http.HttpIPUtil;
 import com.haojue.system.service.ISysUserService;
+import com.haojue.web.core.config.SwaggerConfig;
 import lombok.RequiredArgsConstructor;
-import org.apache.poi.ss.usermodel.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -41,7 +40,10 @@ public class OpusController extends BaseController {
 
     private final OpusCommentService opusCommentServiceImpl;
 
-    private final ISysUserService sysUserService;
+
+
+    private final SwaggerConfig swaggerConfig;
+
 
     /**
      * 查询作品列表
@@ -195,7 +197,7 @@ public class OpusController extends BaseController {
         if (list != null && list.size() > 0) {
             for (OpusCommentVO opusComment : list) {
                 if (StringUtils.isNotBlank(opusComment.getUserUrl())) {
-                    opusComment.setUserUrl("/dev-api/" + opusComment.getUserUrl());
+                    opusComment.setUserUrl(swaggerConfig.getPathMapping() + "/" + opusComment.getUserUrl());
                 }
             }
         }
