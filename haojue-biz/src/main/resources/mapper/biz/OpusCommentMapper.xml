@@ -8,13 +8,14 @@
         .
         id
         ,t.opus_code as opusCode,t.user_name as userName,t.user_email as userEmail,t.create_date as createDate,
-        t.ip,t.view,t.remark,t.comment_code as commentCode
+        t.ip,t.view,t.remark,t.comment_code as commentCode,t.user_id as userId
     </sql>
 
     <select id="getPageList" resultType="com.haojue.biz.domain.OpusCommentVO">
-        select h.id,h.code,t.userName,t.remark,t.ip,t.view,t.commentCode from hj_opus  h
+        select h.id,h.code,t.userName,t.remark,t.ip,t.view,t.commentCode,h.name from hj_opus h
         left join
-        (select user_name as userName,opus_code,remark,ip,view,comment_code as commentCode from hj_opus_comment where id in(
+        (select user_name as userName,opus_code,remark,ip,view,comment_code as commentCode from hj_opus_comment where id
+        in(
         select max(id) from hj_opus_comment)) t
         on h.code = t.opus_code
         <where>
@@ -35,7 +36,7 @@
     <update id="updateViewState">
         update hj_opus_comment
         set view = #{view}
-        where id = #{id}
+        where comment_code = #{commentCode}
     </update>
 
     <delete id="deleteById">
@@ -44,17 +45,41 @@
         where id = #{id}
     </delete>
 
+    <delete id="deleteByCommentCode">
+        delete
+        from hj_opus_comment where comment_code = #{commentCode}
+    </delete>
+
+
     <select id="getCommentDetailPage" resultType="com.haojue.biz.domain.OpusCommentVO">
         select
-        <include refid="baseSql"/>,s.nick_name as nickName,s.avatar as userUrl
+        <include refid="baseSql"/>,t.user_name as nickName,s.avatar as userUrl
         from hj_opus_comment t inner join
         hj_opus h
         on h.code = t.opus_code
         left join sys_user s
-        on s.user_name = t.user_name
+        on s.user_id = t.user_id
         where h.id = #{opusId}
         order by t.create_date desc
     </select>
+
+    <select id="commentInfo" resultType="com.haojue.biz.domain.OpusCommentVO">
+        select h.id,h.name,h.code,s.user_name as userName,h.remark,h.ip,h.create_time as createDate,s.avatar as userUrl
+        from hj_opus h
+                 left join
+             sys_user s
+             on h.create_by = s.user_name
+        where h.id=#{id}
+    </select>
+
+    <insert id="save">
+       insert into hj_opus_comment(opus_code,user_name,user_email,create_date,ip,remark,comment_code,user_id)
+                   values(#{opusComment.opusCode},#{opusComment.userName},#{opusComment.userEmail},sysdate(),#{opusComment.ip},#{opusComment.remark},#{opusComment.commentCode},#{opusComment.userId})
+    </insert>
+
+
+
+
 
 
 </mapper>

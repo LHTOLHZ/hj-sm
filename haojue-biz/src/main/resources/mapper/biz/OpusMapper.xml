@@ -27,6 +27,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="updateBy"     column="update_by"    />
         <result property="updateTime"   column="update_time"  />
         <result property="cover"   column="cover"  />
+        <result property="ip"   column="ip"  />
     </resultMap>
 
     <sql id="selectOpusVo">
@@ -51,6 +52,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="superior != null "> and superior = #{superior}</if>
             <if test="selected != null "> and selected = #{selected}</if>
             <if test="browseNum != null "> and browse_num = #{browseNum}</if>
+            <if test="ip != null "> and ip = #{ip}</if>
         </where>
     </select>
 
@@ -80,6 +82,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="browseNum != null">browse_num,</if>
             <if test="createBy != null and createBy != ''">create_by,</if>
             <if test="cover != null and cover != ''">cover,</if>
+            <if test="ip != null "> ip,</if>
 
             create_time
          </trim>
@@ -102,7 +105,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="browseNum != null">#{browseNum},</if>
             <if test="createBy != null and createBy != ''">#{createBy},</if>
             <if test="cover != null and cover != ''">#{cover},</if>
-
+            <if test="ip != null "> #{ip},</if>
             sysdate()
          </trim>
     </insert>
@@ -128,6 +131,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="browseNum != null">browse_num = #{browseNum},</if>
             <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
             <if test="cover != null and cover != ''">cover = #{cover},</if>
+            <if test="ip != null ">  ip = #{ip},</if>
             update_time = sysdate()
         </trim>
         where id = #{id}

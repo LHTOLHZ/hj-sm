@@ -14,7 +14,7 @@ import com.haojue.common.xss.Xss;
 
 /**
  * 用户对象 sys_user
- * 
+ *
  * @author liujie
  */
 public class SysUser extends BaseEntity
@@ -90,6 +90,16 @@ public class SysUser extends BaseEntity
 
     /** 角色ID */
     private Long roleId;
+
+    private String userType;
+
+    public String getUserType() {
+        return userType;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType;
+    }
 
     public SysUser()
     {

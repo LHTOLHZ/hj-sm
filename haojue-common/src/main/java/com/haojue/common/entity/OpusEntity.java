@@ -93,6 +93,8 @@ public class OpusEntity extends BaseEntity{
      */
     private Integer browseNum;
 
+    private String ip;
+
 
 
 }
