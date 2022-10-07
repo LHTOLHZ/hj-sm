@@ -15,11 +15,9 @@ import com.haojue.common.enums.BusinessType;
 import com.haojue.common.utils.DateUtils;
 import com.haojue.common.utils.StringUtils;
 import com.haojue.common.utils.http.HttpIPUtil;
-import com.haojue.system.service.ISysUserService;
 import com.haojue.web.core.config.SwaggerConfig;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -48,7 +46,7 @@ public class OpusController extends BaseController {
     /**
      * 查询作品列表
      */
-    @PreAuthorize("@ss.hasPermi('biz:opus:list')")
+    /*@PreAuthorize("@ss.hasPermi('biz:opus:list')")*/
     @GetMapping("/list")
     public TableDataInfo list(Opus opus) {
         startPage();
@@ -73,7 +71,7 @@ public class OpusController extends BaseController {
     /**
      * 获取作品详细信息
      */
-    @PreAuthorize("@ss.hasPermi('biz:opus:query')")
+    /*@PreAuthorize("@ss.hasPermi('biz:opus:query')")*/
     @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Long id) {
         return AjaxResult.success(opusService.selectOpusById(id));
@@ -82,7 +80,7 @@ public class OpusController extends BaseController {
     /**
      * 新增作品
      */
-    @PreAuthorize("@ss.hasPermi('biz:opus:add')")
+   /* @PreAuthorize("@ss.hasPermi('biz:opus:add')")*/
     @Log(title = "作品", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody Opus opus, HttpServletRequest request) {
@@ -95,7 +93,7 @@ public class OpusController extends BaseController {
     /**
      * 修改作品
      */
-    @PreAuthorize("@ss.hasPermi('biz:opus:edit')")
+    /*@PreAuthorize("@ss.hasPermi('biz:opus:edit')")*/
     @Log(title = "作品", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody Opus opus, HttpServletRequest request) {
@@ -111,7 +109,7 @@ public class OpusController extends BaseController {
      * @param opus
      * @return
      */
-    @PreAuthorize("@ss.hasPermi('biz:opus:edit')")
+   /* @PreAuthorize("@ss.hasPermi('biz:opus:edit')")*/
     @Log(title = "作品", businessType = BusinessType.UPDATE)
     @PutMapping("/changeSelectedStatus")
     public AjaxResult changeSelectedStatus(@RequestBody Opus opus) {
@@ -125,14 +123,14 @@ public class OpusController extends BaseController {
      * @param opus
      * @return
      */
-    @PreAuthorize("@ss.hasPermi('biz:opus:edit')")
+   /* @PreAuthorize("@ss.hasPermi('biz:opus:edit')")*/
     @Log(title = "作品", businessType = BusinessType.UPDATE)
     @PutMapping("/changeSuperiorStatus")
     public AjaxResult changeSuperiorStatus(@RequestBody Opus opus) {
         return toAjax(opusService.changeSuperiorStatus(opus));
     }
 
-    @PreAuthorize("@ss.hasPermi('biz:opus:edit')")
+    /*@PreAuthorize("@ss.hasPermi('biz:opus:edit')")*/
     @GetMapping("/delete/{id}")
     public AjaxResult delete(@PathVariable("id") Long id) {
         return AjaxResult.success(opusService.deleteOpusById(id));
