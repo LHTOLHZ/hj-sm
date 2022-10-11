@@ -53,6 +53,10 @@ public class OpusController extends BaseController {
         List<Opus> list = opusService.selectOpusList(opus);
         if (list != null && list.size() > 0) {
             for (Opus opus1 : list) {
+                String cover = opus1.getCover();
+                if(StringUtils.isNotEmpty(cover)){
+                    opus1.setCover(swaggerConfig.getPathMapping() + cover);
+                }
                 opus1.setTrString("12/79/10");
             }
         }

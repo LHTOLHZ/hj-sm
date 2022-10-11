@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import com.haojue.common.config.HaoJueConfig;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.models.auth.In;
+import org.springframework.stereotype.Component;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -28,6 +29,7 @@ import springfox.documentation.spring.web.plugins.Docket;
  *
  * @author liujie
  */
+@Component
 @Configuration
 public class SwaggerConfig {
     /**

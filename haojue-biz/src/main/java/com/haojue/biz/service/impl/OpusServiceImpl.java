@@ -5,8 +5,8 @@ import com.haojue.common.entity.OpusMaterialEntity;
 import com.haojue.common.utils.StringUtils;
 import com.haojue.common.utils.uuid.Seq;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,14 +46,14 @@ public class OpusServiceImpl implements IOpusService {
 
     private String getMaterial(List<OpusMaterialEntity> list, Integer type, Opus opus) {
         StringBuffer urlBuffer = new StringBuffer();
-        String[] strings = new String[list.size()];
+        List<String> strs = new ArrayList<>();
         if (list != null && list.size() > 0) {
             int index = 0;
             for (OpusMaterialEntity opusMaterialEntity : list) {
                 if (type == opusMaterialEntity.getType()) {
                     String url = opusMaterialEntity.getUrl();
                     if (StringUtils.isNotBlank(url)) {
-                        strings[index] = url;
+                        strs.add(url);
                         if (StringUtils.isNotBlank(urlBuffer.toString())) {
                             urlBuffer.append(",");
                         }
@@ -63,11 +63,16 @@ public class OpusServiceImpl implements IOpusService {
                 index = index + 1;
             }
         }
-        if(type == 0){
-            opus.setDepositImgs(strings);
-        }else{
-            opus.setDepositVideos(strings);
+
+
+        if (strs.size() > 0) {
+            if (type == 0) {
+                opus.setDepositImgs(strs.toArray(new String[strs.size()]));
+            } else {
+                opus.setDepositVideos(strs.toArray(new String[strs.size()]));
+            }
         }
+
         return urlBuffer.toString();
     }
 
@@ -133,8 +138,11 @@ public class OpusServiceImpl implements IOpusService {
         }
         String[] videoss = this.split(videos, ",");
         if (videoss != null && videoss.length > 0) {
-            for (int index = 0; index < videoss.length; index++) {
-                String videoUrl = imagess[index];
+            List<String> videoList = Arrays.asList(videoss);
+            Set<String> set = videoList.stream().collect(Collectors.toSet());
+            Iterator<String> it = set.iterator();
+            while (it.hasNext()) {
+                String videoUrl = it.next();
                 OpusMaterialEntity opusMaterialEntity = new OpusMaterialEntity();
                 opusMaterialEntity.setOpusCode(opusCode);
                 opusMaterialEntity.setType(1);

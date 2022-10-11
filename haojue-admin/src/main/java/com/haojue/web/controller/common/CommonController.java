@@ -83,9 +83,9 @@ public class CommonController
             String fileName = FileUploadUtils.upload(filePath, file);
             String url = serverConfig.getUrl() + fileName;
             AjaxResult ajax = AjaxResult.success();
-            ajax.put("url", url);
-            ajax.put("fileName", url);
-            ajax.put("newFileName", url);
+            ajax.put("url", fileName);
+            ajax.put("fileName", fileName);
+            ajax.put("newFileName", fileName);
             ajax.put("originalFilename", file.getOriginalFilename());
             return ajax;
         }
